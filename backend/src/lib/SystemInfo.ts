@@ -16,21 +16,22 @@ interface Info {
 }
 
 export class SystemInfo {
-  public getCpuInfo (): CPU {
+  public async getCpuInfo (): Promise<any> {
     const cpu = new CPU()
-    return cpu
+    const usage = await cpu.getCpuUsage()
+    return {
+      ...cpu,
+      usage
+    }
   }
 
   public async getStats (): Promise<Info> {
     const totalMemory = os.totalmem()
     const freeMemory = os.freemem()
-    // Obtener el uso de CPU del sistema a partir de la carga promedio en el último minuto
-    // const systemCpuUsage = os.loadavg()[0] * 100
-    // const diskInfo = await disk.diskUsage()
 
     return {
       platform: os.platform(),
-      cpu: this.getCpuInfo(),
+      cpu: await this.getCpuInfo(),
       memory: {
         total: totalMemory,
         free: freeMemory,
