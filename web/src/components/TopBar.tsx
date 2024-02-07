@@ -1,29 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
-import { socket } from "../socket";
+import React from "react";
+import { Context } from "../context";
 
 function TopBar() {
-  const [systemInfo, setSystemInfo] = useState<any>({});
 
-  function bytesToGigabytes(bytes: any): string {
-    const gigabytes = bytes / Math.pow(1024, 3);
-    return gigabytes.toFixed(2);
-  }
 
-  useEffect(() => {
-    function onFooEvent(value: any) {
-      setSystemInfo(value);
-    }
-
-    socket.on("systemInfo", (info) => onFooEvent(info));
-
-    return () => {
-      socket.off("foo", onFooEvent);
-    };
-  }, [systemInfo]);
-
+  const { 
+    systemInfo, 
+    bytesToGigabytes 
+  } = React.useContext(Context);
+  
   return (
-    <div className="sticky top-0 w-full bg-slate-900">
+    <div className="sticky top-0 w-full dark:bg-gray-950">
       <div className="max-w-screen-2xl mx-auto">
         <div className="py-4 border-b border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 mx-4 lg:mx-0">
           <div className="relative flex items-center">
