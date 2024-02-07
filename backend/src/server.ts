@@ -16,8 +16,6 @@ app.get('/', (req, res) => {
   res.end()
 })
 
-console.log(process.version)
-
 io.on('connection', (socket) => {
   console.log('Cliente conectado')
 

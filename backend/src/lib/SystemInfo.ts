@@ -12,6 +12,7 @@ interface Info {
   platform: string
   cpu: CPU
   memory: Memory
+  nodev: string
 }
 
 export class SystemInfo {
@@ -34,7 +35,8 @@ export class SystemInfo {
         total: totalMemory,
         free: freeMemory,
         used: totalMemory - freeMemory
-      }
+      },
+      nodev: process.version
     }
   }
 }
