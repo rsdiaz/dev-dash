@@ -3,17 +3,20 @@ import * as http from 'http'
 import { Server } from 'socket.io'
 import express, { type Application } from 'express'
 import { SystemInfo } from './lib/SystemInfo'
+import { loggerMiddleware } from './utils/logger'
 
 export const app: Application = express()
 const server = http.createServer(app)
 const io = new Server(server)
 const system = new SystemInfo()
 
+app.use(loggerMiddleware)
+
 const port = (Boolean(process.env.PORT)) || 4000
 
 app.get('/', (req, res) => {
   // eslint-disable-next-line n/no-path-concat
-  res.end()
+  res.status(200).send('Hello, world')
 })
 
 io.on('connection', (socket) => {
