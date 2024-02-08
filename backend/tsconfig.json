@@ -9,7 +9,7 @@
       "removeComments": true,
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
-      "strictNullChecks": false,
+      "strictNullChecks": true,
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "resolveJsonModule": true,

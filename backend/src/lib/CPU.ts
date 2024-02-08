@@ -1,4 +1,4 @@
-import * as os from 'os'
+import * as os from 'node:os'
 import * as osUtils from 'node-os-utils'
 interface CPUInterface {
   model: string
