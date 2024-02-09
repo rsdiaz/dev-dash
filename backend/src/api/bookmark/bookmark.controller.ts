@@ -28,6 +28,8 @@ export const createBookmark = async (req: Request, res: Response): Promise<any> 
       const result = stmt.run('https://www.ejemplo.com')
 
       console.log('ID del nuevo registro:', result.lastInsertRowid)
+
+      // TODO: obtains the image from the open graph and update result
     })()
 
     console.log('Registro insertado exitosamente')
