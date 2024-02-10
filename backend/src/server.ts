@@ -6,6 +6,7 @@ import { SystemInfo } from './lib/SystemInfo'
 import { loggerMiddleware } from './utils/logger'
 import { initDb } from './db/db'
 import bookmarkRouter from './api/bookmark/bookmark.routes'
+import toolsRouter from './api/tools/tools.routes'
 
 export const app: Application = express()
 const server = http.createServer(app)
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(bookmarkRouter)
+app.use(toolsRouter)
 
 io.on('connection', (socket) => {
   console.log('Cliente conectado')

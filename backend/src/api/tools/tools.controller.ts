@@ -1,18 +1,25 @@
 import { openDb } from '../../db/db'
 import { type Request, type Response } from 'express'
+import * as tools from '../../tools/tools.json'
+import { DevTool, type DevToolResponseApi } from '../../lib/DevTool'
 
-export const getBookmarks = async (req: Request, res: Response): Promise<any> => {
-  const db = openDb('webdash.db')
-
+export const getDevTools = async (req: Request, res: Response): Promise<any> => {
   try {
-    const rows = db.prepare('SELECT * FROM bookmarks').all()
-    db.close()
-    res.status(200).send(rows)
+    const devTool = new DevTool(tools[0])
+    const devToolVersion = await devTool.getVersion()
+    const devToolLatestVersion = await devTool.getLatestVersion()
+
+    const response: DevToolResponseApi = {
+      name: devTool.name,
+      svg: devTool.svg,
+      curren_version: devToolVersion,
+      latest_version: devToolLatestVersion
+    }
+
+    res.status(200).send([response])
   } catch (error) {
     console.error(error)
     res.status(404).json({ status: 204, error: 'Not content' })
-  } finally {
-    db.close()
   }
 }
 
