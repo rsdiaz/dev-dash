@@ -13,7 +13,8 @@ export const getDevTools = async (req: Request, res: Response): Promise<any> => 
       name: devTool.name,
       svg: devTool.svg,
       curren_version: devToolVersion,
-      latest_version: devToolLatestVersion
+      latest_version: devToolLatestVersion,
+      is_outdated: devToolVersion !== devToolLatestVersion
     }
 
     res.status(200).send([response])

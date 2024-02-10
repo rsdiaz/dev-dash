@@ -3,7 +3,7 @@
 import axios, { type AxiosResponse } from 'axios'
 import { exec } from 'child_process'
 
-interface DevToolInterface {
+export interface DevToolInterface {
   name: string
   check_url: string
   svg: string
@@ -21,6 +21,7 @@ interface NodeVersionResponse {
 
 export interface DevToolResponseApi extends Pick<DevToolInterface, 'name' | 'svg'>, VersionResponse {
   curren_version: string
+  is_outdated: boolean
 }
 
 export class DevTool {
