@@ -15,6 +15,8 @@ const DevTools = () => {
   if (error) return <div className="failed">failed to load</div>;
   if (isValidating) return <div className="Loading">Loading...</div>;
 
+  console.log(tools)
+
   return (
     <ul className="flex space-x-8">
       {tools &&
@@ -22,10 +24,12 @@ const DevTools = () => {
           <li key={index}>
             <div className="flex gap-1">
               <div dangerouslySetInnerHTML={{__html: tool.svg}} />
-              <p>{tool.curren_version}</p>
-              <p>
-                -{">"} <span className="text-green-300">{tool.latest_version}</span>
-              </p>
+              <p>{tool.current_version}</p>
+              {tool.is_outdated === true && (
+                <p>
+                  -{">"} <span className="text-green-300">{tool.latest_version}</span>
+                </p>
+              )}
             </div>
           </li>
         ))}

@@ -1,4 +1,5 @@
 import DatabaseConstructor, { type Database } from 'better-sqlite3'
+import devTools from '../tools/tools.json'
 
 export function openDb (filename: string): Database {
   const db = new DatabaseConstructor(filename, {
@@ -11,6 +12,14 @@ export function openDb (filename: string): Database {
 export function initDb (): void {
   try {
     const db = openDb('webdash.db')
+
+    // craate the dev_tools table
+    db.transaction(() => {
+      db.exec('DROP TABLE IF EXISTS dev_tools')
+      db.exec('CREATE TABLE dev_tools (id INTEGER PRIMARY KEY, name TEXT, command TEXT, svg TEXT, check_url TEXT)')
+      const stmt = db.prepare('INSERT INTO dev_tools (name, command, svg, check_url) VALUES (?, ?, ?, ?)')
+      devTools.map((tool, index) => stmt.run(tool.name, tool.command, tool.svg, tool.check_url))
+    })()
 
     // create the settings table
     db.transaction(() => {

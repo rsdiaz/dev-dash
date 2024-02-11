@@ -10,17 +10,20 @@ export interface DevToolInterface {
   command: string
 }
 
+interface NpmPackageResponse {
+  version: string
+}
+
+interface NodeVersionResponse extends NpmPackageResponse {
+  lts: boolean
+}
+
 interface VersionResponse {
   latest_version: string | null
 }
 
-interface NodeVersionResponse {
-  version: string
-  lts: boolean
-}
-
 export interface DevToolResponseApi extends Pick<DevToolInterface, 'name' | 'svg'>, VersionResponse {
-  curren_version: string
+  current_version: string
   is_outdated: boolean
 }
 
@@ -45,7 +48,7 @@ export class DevTool {
           reject(`Error al ejecutar el comando: ${error}`)
           return
         }
-        resolve(stdout.trim())
+        resolve(stdout.trim().replace(/^\D+/, ''))
       })
     })
   }
@@ -55,10 +58,12 @@ export class DevTool {
       if (this.name === 'nodejs') {
         const response: AxiosResponse<NodeVersionResponse> = await axios.get<NodeVersionResponse>(this.check_url)
         const latestVersion: string = response.data[0].version
-        return latestVersion
+        return latestVersion.trim().replace(/^\D+/, '')
+      } else {
+        const response: AxiosResponse<NodeVersionResponse> = await axios.get<NodeVersionResponse>(this.check_url)
+        const latestVersion: string = response.data.version
+        return latestVersion.trim().replace(/^\D+/, '')
       }
-
-      return null
     } catch (error) {
       console.error(`Error al obtener la última versión de ${this.name}: ${error}`)
       return null
