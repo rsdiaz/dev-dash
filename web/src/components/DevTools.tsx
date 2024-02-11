@@ -18,12 +18,12 @@ const DevTools = () => {
   console.log(tools)
 
   return (
-    <ul className="flex space-x-8">
+    <ul className="flex items-center gap-2">
       {tools &&
         tools.map((tool: any, index: number) => (
-          <li key={index}>
-            <div className="flex gap-1">
-              <div dangerouslySetInnerHTML={{__html: tool.svg}} />
+          <li key={index} className="flex items-center rounded px-3 h-10 dark:border-white/5 bg-white/10 backdrop-blur-md">
+            <div className="flex gap-2 text-sm font-medium">
+              <div className="tools-logo" dangerouslySetInnerHTML={{__html: tool.svg  }} />
               <p>{tool.current_version}</p>
               {tool.is_outdated === true && (
                 <p>
