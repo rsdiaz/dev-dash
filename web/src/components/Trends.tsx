@@ -35,15 +35,15 @@ function Trend ({ trend }: any) {
             width="18"
             height="18"
             fill="none"
-            stroke-width="2"
+            strokeWidth="2"
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
             ></path>
           </svg>
@@ -62,7 +62,17 @@ function Trends() {
     isValidating,
   } = useSWR("http://localhost:4000/trends", fetcher);
 
-  if (error) return <div className="failed">failed to load</div>;
+  if (error) return (
+    <div className="border shadow-sm break-inside flex justify-between flex-col p-4 mb-3 text-sm gap-4 rounded-lg dark:border-white/5 bg-white/10 backdrop-blur-md max-w-[10rem]">
+      <div className="flex flex-col items-center gap-2">
+        <svg width='22' height='22' fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"></path>
+        </svg>
+        <span className="text-sm font-medium">failed to load</span>
+        <p className="text-xs text-center text-red-500">An error occurred try to connect again</p>
+      </div>
+    </div>
+  )
   if (isValidating) return <div className="Loading">Loading...</div>;
 
   console.log(trends, 'containers')

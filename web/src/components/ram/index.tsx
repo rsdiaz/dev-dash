@@ -27,7 +27,7 @@ export default function Ram() {
         </svg>
         <h2 className="text-sm font-medium block">RAM</h2>
       </div>
-      <div className="ml-3 flex items-center font-medium text-sm text-white">
+      <div className="ml-3 flex items-center font-medium text-sm">
         <span>{bytesToGigabytes(systemInfo?.memory?.used)} GB</span>{" "}
         &nbsp; / &nbsp;
         <span>
@@ -47,7 +47,8 @@ export default function Ram() {
             strokeWidth="10" 
             fill="none" 
             strokeDasharray={251.2} 
-            strokeDashoffset={systemInfo?.memory?.used / systemInfo?.memory?.total * 251.2}
+            strokeDashoffset={systemInfo?.memory?.used / systemInfo?.memory?.total * 100}
+            
           >
             <animate attributeName="strokeDashoffset" dur="2s" from="251.2" to="0" fill="freeze" />
           </circle>
