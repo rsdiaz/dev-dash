@@ -3,6 +3,7 @@ import TopBar from './components/TopBar'
 import BookMarks from './components/BookMarks'
 import DockerWidget from './components/DockerWidget'
 import WeatherWidget from './components/Weather'
+import Trends from './components/Trends'
 
 function App() {
 
@@ -12,8 +13,9 @@ function App() {
         <TopBar />
       </div>
       <div className='mt-4 mx-11 flex gap-4'>
-        <DockerWidget />
         <WeatherWidget />
+        <DockerWidget />
+        <Trends />
       </div>
       <main className='max-w-[130rem] mx-auto'>
         <div className='p-20'>

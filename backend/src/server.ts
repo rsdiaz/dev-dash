@@ -8,6 +8,7 @@ import { initDb } from './db/db'
 import bookmarkRouter from './api/bookmark/bookmark.routes'
 import toolsRouter from './api/tools/tools.routes'
 import containersRouter from './api/containers/container.routes'
+import trendsRoutes from './api/github/github.routes'
 
 export const app: Application = express()
 const server = http.createServer(app)
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 app.use(bookmarkRouter)
 app.use(toolsRouter)
 app.use(containersRouter)
+app.use(trendsRoutes)
 
 io.on('connection', (socket) => {
   console.log('Cliente conectado')
