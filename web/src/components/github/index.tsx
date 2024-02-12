@@ -9,7 +9,7 @@ export default function Github() {
 
   return (
     <button onClick={handleLogin}
-      className="w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-300 dark:border-white/5 bg-white/10 backdrop-blur-md dark:hover:bg-white/20"
+      className="w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-300 border dark:border-white/5 dark:hover:bg-white/10 dark:focus:bg-white/10 backdrop-blur-md"
     >
       <span className="sr-only">DevDash GitHub</span>
       <svg

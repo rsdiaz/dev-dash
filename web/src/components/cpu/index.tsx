@@ -14,7 +14,7 @@ export default function Cpu () {
             width="24"
             height="24"
             fill="none"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -28,19 +28,7 @@ export default function Cpu () {
           </svg>
           <span className="text-sm font-medium">CPU</span>
         </div>
-        
-        {/* <div className="flex flex-col w-44 space-y-1">
-          <div className="flex justify-between items-center">
-            <h2 className="text-sm font-medium block">CPU</h2>
-            <div className="text-xs flex items-center font-medium text-gray-500">
-              <span>{systemInfo?.cpu?.usage} %</span>
-            </div>
-          </div>
-          <div className="relative w-full h-1 bg-gray-100 rounded-sm overflow-hidden dark:bg-gray-600">
-            <div className={`absolute left-0 h-full bg-purple-500`} style={{ width: `${systemInfo?.cpu?.usage}px` }} />
-          </div>
-        </div> */}
-        <span className="text-sm font-medium min-w-10">{systemInfo?.cpu?.usage}%</span>
+        <span className="text-sm font-medium min-w-14">{systemInfo?.cpu?.usage}%</span>
         <div className="w-8 h-8 flex items-center relative">
           <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="40" className="stroke-gray-200 dark:stroke-white/10" strokeWidth="10" fill="none"/>
