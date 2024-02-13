@@ -3,6 +3,7 @@ import Cpu from "./cpu";
 import Github from "./github";
 import DevtoolsPopover from "./devtools-popover";
 import Ram from "./ram";
+import Config from "./config";
 
 function TopBar() {
 
@@ -20,6 +21,7 @@ function TopBar() {
             </div>
             <DevtoolsPopover  />
             <Github />
+            <Config />
           </nav>
         </div>
       </div>
