@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import Spinner from "./@ui/spinner";
 
 const fetcher = () =>
   fetch("http://localhost:4000/tools", { method: "GET" }).then((response) =>
@@ -13,7 +14,7 @@ const DevTools = () => {
   } = useSWR("http://localhost:4000/tools", fetcher);
 
   if (error) return <div className="failed">failed to load</div>;
-  if (isValidating) return <div className="Loading">Loading...</div>;
+  if (isValidating) return <div className="flex items-center px-4"><Spinner size="sm" /></div>
   
   return (
     <ul className="flex items-center gap-2">
