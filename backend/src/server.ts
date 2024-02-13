@@ -9,6 +9,7 @@ import bookmarkRouter from './api/bookmark/bookmark.routes'
 import toolsRouter from './api/tools/tools.routes'
 import containersRouter from './api/containers/container.routes'
 import trendsRoutes from './api/github/github.routes'
+import settingsRoutes from './api/settings/settings.routes'
 
 export const app: Application = express()
 const server = http.createServer(app)
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello, world')
 })
 
+app.use(settingsRoutes)
 app.use(bookmarkRouter)
 app.use(toolsRouter)
 app.use(containersRouter)
