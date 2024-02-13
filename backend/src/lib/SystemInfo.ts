@@ -1,6 +1,7 @@
 import * as os from 'os'
 // import * as disk from './disk'
 import { CPU } from './CPU'
+import { exec } from 'child_process'
 
 interface Memory {
   total: number
@@ -39,5 +40,23 @@ export class SystemInfo {
       },
       nodev: process.version
     }
+  }
+
+  public async getGlobalNodePackages (): Promise<any> {
+    return await new Promise((resolve, reject) => {
+      exec('npm list -g --depth=0', (error, stdout, stderr) => {
+        if (error != null) {
+          reject(error)
+          return
+        }
+        if (stderr.length > 0) {
+          reject(stderr)
+          return
+        }
+
+        const packages = stdout.split('\n').filter(line => line.trim() !== '').slice(1)
+        resolve(packages)
+      })
+    })
   }
 }

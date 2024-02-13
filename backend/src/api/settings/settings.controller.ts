@@ -1,3 +1,4 @@
+import { SystemInfo } from '../../lib/SystemInfo'
 import { openDb } from '../../db/db'
 import { type Request, type Response } from 'express'
 
@@ -5,9 +6,19 @@ export const getSettings = async (req: Request, res: Response): Promise<any> => 
   const db = openDb('webdash.db')
 
   try {
+    const system = new SystemInfo()
+    const nodeGlobalPackages = await system.getGlobalNodePackages()
+
     const rows = db.prepare('SELECT * FROM settings').all()
     db.close()
-    res.status(200).send(rows)
+
+    const data = {
+      ...rows,
+      nodeGlobalPackages
+
+    }
+
+    res.status(200).send(data)
   } catch (error) {
     console.error(error)
     res.status(404).json({ status: 204, error: 'Not content' })
