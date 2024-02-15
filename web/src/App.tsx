@@ -6,8 +6,7 @@ import WeatherWidget from './components/Weather'
 import Trends from './components/Trends'
 import React from 'react'
 
-function App() {
-
+function App () {
   // Check prefer dark mode
 
   React.useEffect(() => {
@@ -28,7 +27,7 @@ function App() {
           <DockerWidget />
           <Trends />
         </div>
-        <div className='p-20'>
+        <div className='py-20'>
           <BookMarks />
         </div>
       </main>
