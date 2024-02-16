@@ -32,13 +32,13 @@ export function initDb (): void {
     // create the bookmarks table
     db.transaction(() => {
       db.exec('DROP TABLE IF EXISTS bookmarks')
-      db.exec('CREATE TABLE bookmarks (id INTEGER PRIMARY KEY, url TEXT, imageUrl TEXT, title TEXT, category TEXT)')
-      const stmt = db.prepare('INSERT INTO bookmarks (url, imageUrl, title, category) VALUES (?, ?, ?, ?)')
-      stmt.run('https://robertoserrano.pro', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://robertoserrano.pro&size=48', '🔥 robertoserrano.pro', 'Personal')
-      stmt.run('https://www.notion.so', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://notion.so&size=48', '🚀 Notion', 'Herramientas')
-      stmt.run('https://app.factorialhr.com/dashboard', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://app.factorialhr.com/dashboard&size=48', '💼 Factorial', 'Work')
-      stmt.run('https://www.office.com/?acctsw=1&auth=2', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.office.com/?acctsw=1&auth=2&size=48', '📝 Office 365', 'Work')
-      stmt.run('https://chat.openai.com', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://chat.openai.com&size=48', '🤖 ChatGPT', 'Herramientas')
+      db.exec('CREATE TABLE bookmarks (id INTEGER PRIMARY KEY, url TEXT, imageUrl TEXT, title TEXT, category TEXT, position INTEGER)')
+      const stmt = db.prepare('INSERT INTO bookmarks (url, imageUrl, title, category, position) VALUES (?, ?, ?, ?, ?)')
+      stmt.run('https://robertoserrano.pro', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://robertoserrano.pro&size=48', '🔥 robertoserrano.pro', 'Personal', 2)
+      stmt.run('https://www.notion.so', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://notion.so&size=48', '🚀 Notion', 'Herramientas', 1)
+      stmt.run('https://app.factorialhr.com/dashboard', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://app.factorialhr.com/dashboard&size=48', '💼 Factorial', 'Work', 3)
+      stmt.run('https://www.office.com/?acctsw=1&auth=2', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.office.com/?acctsw=1&auth=2&size=48', '📝 Office 365', 'Work', 4)
+      stmt.run('https://chat.openai.com', 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://chat.openai.com&size=48', '🤖 ChatGPT', 'Herramientas', 5)
     })()
     console.log('Transaction completed')
   } catch (error) {
