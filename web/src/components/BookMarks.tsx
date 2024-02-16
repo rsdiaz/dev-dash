@@ -7,7 +7,8 @@ import {
   PointerSensor,
   closestCenter,
   useSensor,
-  useSensors
+  useSensors,
+  type DragMoveEvent
 } from '@dnd-kit/core'
 import {
   SortableContext,
@@ -16,6 +17,8 @@ import {
   horizontalListSortingStrategy
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { cx } from '../utils/classNames'
+import { type BookmarkInterface } from '../types/BookmarkInterface'
 
 const fetcher = async () =>
   await fetch('http://localhost:4000/bookmarks', { method: 'GET' }).then(
@@ -37,7 +40,7 @@ function SortableItem (props: any) {
       style={style}
       {...attributes}
       {...listeners}
-      className='border shadow-sm break-inside flex justify-between flex-col p-4 mb-3 text-sm gap-4 rounded-lg dark:border-white/5 bg-white/10 backdrop-blur-md'
+      className='border shadow-sm break-inside flex justify-between flex-col p-4 text-sm gap-4 rounded-lg dark:border-white/5 bg-white/10 backdrop-blur-md'
     >
       <div className='flex justify-start items-center gap-3'>
         <figure className='relative w-12 h-12 flex-none'>
@@ -45,17 +48,15 @@ function SortableItem (props: any) {
           <figcaption className='sr-only'>Avatar</figcaption>
         </figure>
         <h2 className='font-medium text-sm'>
-          <a
-            href={props.data.url}
-            rel='nofollow noreferrer'
-            target='_blank'
-          >
+          <a href={props.data.url} rel='nofollow noreferrer' target='_blank'>
             {props.data.title}
           </a>
           <br />
           <span className='text-gray-500 text-xs' />
         </h2>
-        <span className='inline-block text-sm px-1 py-0.5 rounded bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400'>{props.data.category}</span>
+        <span className='inline-block text-sm px-1 py-0.5 rounded bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400'>
+          {props.data.category}
+        </span>
       </div>
     </div>
   )
@@ -67,7 +68,8 @@ function BookMarks () {
     error,
     isValidating
   } = useSWR('http://localhost:4000/bookmarks', fetcher)
-  const [ items, setItems ] = useState<any[]>([]) // Handle initial undefined state
+  const [ items, setItems ] = useState<BookmarkInterface[]>([])
+  const [ select, setSelected ] = useState<boolean>(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -97,6 +99,12 @@ function BookMarks () {
         return newItems
       })
     }
+    setSelected(false)
+  }
+
+  function handleDragMove (event: DragMoveEvent): void {
+    console.log(event)
+    setSelected(true)
   }
 
   return (
@@ -104,10 +112,18 @@ function BookMarks () {
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      onDragMove={handleDragMove}
     >
       <SortableContext items={items} strategy={horizontalListSortingStrategy}>
-        <div className='flex gap-4 flex-row'>
-          {items.map((e: any) => (
+        <div
+          className={
+            cx(
+              'flex gap-4 flex-row py-4 rounded transition-colors',
+              select ? 'bg-slate-900' : ''
+            )
+          }
+        >
+          {items.map((e: BookmarkInterface) => (
             <SortableItem key={e.id} id={e.id} data={e} />
           ))}
         </div>
