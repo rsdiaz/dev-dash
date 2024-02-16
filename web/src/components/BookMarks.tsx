@@ -80,7 +80,8 @@ function BookMarks () {
 
   useEffect(() => {
     if (bookmarks !== undefined) {
-      setItems(bookmarks)
+      const sortedItems = [ ...bookmarks ].sort((a, b) => a.position - b.position)
+      setItems(sortedItems)
     }
   }, [ bookmarks ])
 
@@ -96,6 +97,9 @@ function BookMarks () {
         const newIndex = newItems.findIndex((item) => item.id === over.id)
         const [ removed ] = newItems.splice(oldIndex, 1)
         newItems.splice(newIndex, 0, removed)
+        newItems.forEach((item, index) => {
+          item.position = index
+        })
         return newItems
       })
     }
