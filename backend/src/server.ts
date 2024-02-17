@@ -10,6 +10,7 @@ import toolsRouter from './api/tools/tools.routes'
 import containersRouter from './api/containers/container.routes'
 import trendsRoutes from './api/github/github.routes'
 import settingsRoutes from './api/settings/settings.routes'
+import cors from 'cors'
 
 export const app: Application = express()
 const server = http.createServer(app)
@@ -18,6 +19,7 @@ const system = new SystemInfo()
 
 initDb()
 
+app.use(cors())
 app.use(express.json())
 app.use(loggerMiddleware)
 
