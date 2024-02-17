@@ -43,7 +43,7 @@ function SortableItem (props: any) {
       className='border shadow-sm break-inside flex justify-between flex-col p-4 text-sm gap-4 rounded-lg dark:border-white/5 bg-white/10 backdrop-blur-md'
     >
       <div className='flex justify-start items-center gap-3'>
-        <figure className='relative w-12 h-12 flex-none'>
+        <figure className='relative w-8 h-8 flex-none'>
           <img src={props.data.imageUrl} />
           <figcaption className='sr-only'>Avatar</figcaption>
         </figure>
@@ -91,30 +91,8 @@ function BookMarks () {
   function handleDragEnd (event: any) {
     const { active, over } = event
     if (active.id !== over.id) {
-      setItems((prevItems) => {
-        const newItems = [ ...prevItems ]
-        const oldIndex = newItems.findIndex((item) => item.id === active.id)
-        const newIndex = newItems.findIndex((item) => item.id === over.id)
-        const [ removed ] = newItems.splice(oldIndex, 1)
-        newItems.splice(newIndex, 0, removed)
-        newItems.forEach((item, index) => {
-          item.position = index
-        })
-
-        newItems.forEach(e => {
-          const requestOptions = {
-            method: 'PUT',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ position: e.position })
-          }
-          fetch(`http://localhost:4000/bookmarks/${e.id}`, requestOptions).then()
-        })
-
-        return newItems
-      })
+      setItems((prevItems) => orderBookmarks(event, prevItems))
+      updateBookmarks(items)
     }
     setSelected(false)
   }
@@ -122,6 +100,35 @@ function BookMarks () {
   function handleDragMove (event: DragMoveEvent): void {
     console.log(event)
     setSelected(true)
+  }
+
+  function orderBookmarks (event: any, bookmarks: BookmarkInterface[]) {
+    const { active, over } = event
+    const orderBookmarks = [ ...bookmarks ]
+    const oldIndex = orderBookmarks.findIndex((item) => item.id === active.id)
+    const newIndex = orderBookmarks.findIndex((item) => item.id === over.id)
+    const [ removed ] = orderBookmarks.splice(oldIndex, 1)
+
+    orderBookmarks.splice(newIndex, 0, removed)
+    orderBookmarks.forEach((item, index) => {
+      item.position = index
+    })
+
+    return orderBookmarks
+  }
+
+  function updateBookmarks (bookmarks: BookmarkInterface[]): void {
+    bookmarks.forEach(bookmark => {
+      const requestOptions = {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ position: bookmark.position })
+      }
+      fetch(`http://localhost:4000/bookmarks/${bookmark.id}`, requestOptions).then()
+    })
   }
 
   return (
@@ -145,6 +152,7 @@ function BookMarks () {
           ))}
         </div>
       </SortableContext>
+      <button>Añadir Bookmark</button>
     </DndContext>
   )
 }
