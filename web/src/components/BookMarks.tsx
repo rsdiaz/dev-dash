@@ -100,6 +100,19 @@ function BookMarks () {
         newItems.forEach((item, index) => {
           item.position = index
         })
+
+        newItems.forEach(e => {
+          const requestOptions = {
+            method: 'PUT',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ position: e.position })
+          }
+          fetch(`http://localhost:4000/bookmarks/${e.id}`, requestOptions).then()
+        })
+
         return newItems
       })
     }
