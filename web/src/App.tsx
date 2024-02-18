@@ -1,6 +1,6 @@
 import './App.css'
 import TopBar from './components/TopBar'
-import BookMarks from './components/BookMarks'
+import BookMarks from './components/bookmarks/BookMarks'
 import DockerWidget from './components/DockerWidget'
 import WeatherWidget from './components/Weather'
 import Trends from './components/Trends'

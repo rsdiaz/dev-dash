@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import {
   DndContext,
@@ -17,8 +17,9 @@ import {
   horizontalListSortingStrategy
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { cx } from '../utils/classNames'
-import { type BookmarkInterface } from '../types/BookmarkInterface'
+import { cx } from '../../utils/classNames'
+import { type BookmarkInterface } from '../../types/BookmarkInterface'
+import AddBookMark from './AddBookMark.'
 
 const fetcher = async () =>
   await fetch('http://localhost:4000/bookmarks', { method: 'GET' }).then(
@@ -132,28 +133,30 @@ function BookMarks () {
   }
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      onDragMove={handleDragMove}
-    >
-      <SortableContext items={items} strategy={horizontalListSortingStrategy}>
-        <div
-          className={
-            cx(
-              'flex gap-4 flex-row py-4 rounded transition-colors',
-              select ? 'bg-slate-900' : ''
-            )
-          }
-        >
-          {items.map((e: BookmarkInterface) => (
-            <SortableItem key={e.id} id={e.id} data={e} />
-          ))}
-        </div>
-      </SortableContext>
-      <button>Añadir Bookmark</button>
-    </DndContext>
+    <React.Fragment>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        onDragMove={handleDragMove}
+      >
+        <SortableContext items={items} strategy={horizontalListSortingStrategy}>
+          <div
+            className={
+              cx(
+                'flex gap-4 flex-row py-4 rounded transition-colors',
+                select ? 'bg-slate-900' : ''
+              )
+            }
+          >
+            {items.map((e: BookmarkInterface) => (
+              <SortableItem key={e.id} id={e.id} data={e} />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
+      <AddBookMark />
+    </React.Fragment>
   )
 }
 
