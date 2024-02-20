@@ -19,19 +19,23 @@ export const getBookmarks = async (req: Request, res: Response): Promise<any> =>
 export const createBookmark = async (req: Request, res: Response): Promise<any> => {
   const db = openDb('webdash.db')
   try {
+    const { title, url, category } = req.body
+
+    const lastPositionQuery: any = db.prepare('SELECT MAX(position) as lastPosition FROM bookmarks').get()
+    const lastPosition = lastPositionQuery.lastPosition
+    const imageUrl = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=48`
+
     db.transaction(() => {
-      const stmt = db.prepare('INSERT INTO bookmarks (url) VALUES (?)')
-
-      const result = stmt.run('https://www.ejemplo.com')
-
-      console.log('ID del nuevo registro:', result.lastInsertRowid)
-
-      // TODO: obtains the image from the open graph and update result
+      const stmt = db.prepare('INSERT INTO bookmarks (title, url, category, position, imageUrl) VALUES (?, ?, ?, ?, ?)')
+      stmt.run(title, url, category, lastPosition + 1, imageUrl)
     })()
 
-    console.log('Registro insertado exitosamente')
+    res.status(200).json({ message: 'Bookmark created successfully' })
   } catch (error) {
-    console.error('Error al insertar el registro:', error)
+    console.error('An error occurred while creating bookmark', error)
+    db.exec('ROLLBACK')
+
+    res.status(500).json({ error: 'An error occurred while creating bookmark' })
   } finally {
     db.close()
   }
