@@ -1,5 +1,7 @@
 import React, { type FormEvent } from 'react'
+import useSWRMutation from 'swr/mutation'
 import { cx } from '../../utils/classNames'
+import { Button } from '@/components/ui/button'
 
 interface FormData {
   url: string
@@ -7,27 +9,44 @@ interface FormData {
   category: string
 }
 
+async function addBookmark (url: string, { arg }: { arg: FormData }) {
+  await fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(arg)
+  })
+}
+
 function AddBookMark () {
+  const { trigger } = useSWRMutation(
+    'http://localhost:4000/bookmarks',
+    addBookmark
+  )
+
   const [ formData, setFormData ] = React.useState<FormData>({
     url: '',
     title: '',
     category: ''
   })
-  const [ isOpen, setIsOpen ] = React.useState(true)
 
-  const handleOpen = () => {
+  const [ isOpen, setIsOpen ] = React.useState(false)
+
+  function handleOpen (): void {
     setIsOpen(!isOpen)
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  async function handleSubmit (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> {
     event.preventDefault()
-    fetch('http://localhost:4000/bookmarks', {
-      method: 'POST',
-      body: JSON.stringify(formData)
-    })
+    await trigger(formData)
+    setIsOpen(false)
   }
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  function handleInputChange (event: React.ChangeEvent<HTMLInputElement>): void {
     const { name, value } = event.target
     setFormData({
       ...formData,
@@ -91,7 +110,12 @@ function AddBookMark () {
               </header>
               <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
                 <div className='flex flex-col gap-2'>
-                  <label htmlFor='url'>Title:</label>
+                  <label
+                    htmlFor='title'
+                    className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                  >
+                    Title:
+                  </label>
                   <input
                     type='text'
                     name='title'
@@ -100,7 +124,12 @@ function AddBookMark () {
                   />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <label htmlFor='url'>URL:</label>
+                  <label
+                    htmlFor='url'
+                    className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                  >
+                    URL:
+                  </label>
                   <input
                     type='text'
                     name='url'
@@ -109,7 +138,12 @@ function AddBookMark () {
                   />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <label htmlFor='url'>Category:</label>
+                  <label
+                    htmlFor='category'
+                    className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                  >
+                    Category:
+                  </label>
                   <input
                     type='text'
                     name='category'
@@ -117,7 +151,7 @@ function AddBookMark () {
                     className='min-w-28 px-1 rounded h-8 cursor-pointer bg-white dark:bg-white/20 dark:focus:bg-white focus:bg-white ring-2 ring-transparent focus:ring-black dark:focus:text-black dark:focus:ring-white'
                   />
                 </div>
-                <button type='submit'>Add</button>
+                <Button type='submit'>Add bookmark</Button>
               </form>
             </div>
           </div>

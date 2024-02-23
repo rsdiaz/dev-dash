@@ -155,7 +155,7 @@ function BookMarks () {
           </div>
         </SortableContext>
       </DndContext>
-      <AddBookMark items={items} />
+      <AddBookMark />
     </React.Fragment>
   )
 }
