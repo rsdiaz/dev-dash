@@ -144,7 +144,7 @@ function BookMarks () {
           <div
             className={
               cx(
-                'flex gap-4 flex-row py-4 rounded transition-colors',
+                'flex gap-4 flex-row flex-wrap py-4 rounded transition-colors',
                 select ? 'bg-slate-900' : ''
               )
             }

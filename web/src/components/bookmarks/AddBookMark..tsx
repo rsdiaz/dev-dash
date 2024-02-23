@@ -55,7 +55,7 @@ function AddBookMark () {
   }
 
   return (
-    <div className='absolute bottom-6 left-[50%]'>
+    <div className='absolute bottom-6 left-1/2'>
       <div className='relative flex flex-col-reverse w-44'>
         <button
           onClick={handleOpen}
