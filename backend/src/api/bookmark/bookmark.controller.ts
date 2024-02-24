@@ -1,3 +1,4 @@
+import validator from 'validator'
 import { openDb } from '../../db/db'
 import { type Request, type Response } from 'express'
 
@@ -60,6 +61,29 @@ export const updateBookmark = async (req: Request, res: Response): Promise<any> 
   } catch (error) {
     console.error('Error al actualizar el marcador:', error)
     res.status(500).json({ error: 'Error al actualizar el marcador' })
+  } finally {
+    db.close()
+  }
+}
+
+export const deleteBookmark = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params
+  const db = openDb('webdash.db')
+
+  try {
+    const bookmarkId = validator.toInt(id)
+
+    if (isNaN(bookmarkId)) {
+      res.status(200).send()
+    } else {
+      const stmt = db.prepare('DELETE FROM bookmarks WHERE id = ?')
+      stmt.run(bookmarkId)
+      db.close()
+      res.status(204).send()
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Internal Server Error' })
   } finally {
     db.close()
   }
