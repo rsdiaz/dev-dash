@@ -16,7 +16,7 @@ function BookMarkItem (props: any) {
       style={style}
       {...attributes}
       {...listeners}
-      className='border shadow-sm break-inside flex justify-between flex-col p-2 text-sm gap-4 rounded-lg dark:border-white/5 bg-white/10 backdrop-blur-md'
+      className='border shadow-sm break-inside flex justify-between flex-col p-2 text-sm gap-4 rounded dark:border-white/5 bg-white/10 backdrop-blur-md'
     >
       <div className='flex justify-start items-center gap-3'>
         <figure className='relative w-4 h-4 flex-none'>
@@ -30,7 +30,7 @@ function BookMarkItem (props: any) {
           <br />
           <span className='text-gray-500 text-xs' />
         </h2>
-        <span className='inline-block text-sm px-1 py-0.5 rounded bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400'>
+        <span className='inline-block text-xs px-1 py-0.5 rounded bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400'>
           {props.data.category}
         </span>
       </div>
