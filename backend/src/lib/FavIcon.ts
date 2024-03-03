@@ -20,7 +20,11 @@ export class Favicon {
       const page = await html.fetchPageHtml(url)
       const iconUrl = html.findIconUrl(page)
 
-      return new URL(iconUrl, url).href
+      if (iconUrl !== null && iconUrl !== undefined) {
+        return new URL(iconUrl, url).href
+      } else {
+        return `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=48`
+      }
     } catch (error) {
       console.error(error)
       return null

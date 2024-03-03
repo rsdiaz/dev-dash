@@ -12,7 +12,7 @@ export class HTMLUtils {
     }
   }
 
-  public findIconUrl (html): string {
+  public findIconUrl (html): string | undefined {
     const regex = /<link.*?rel="(?:shortcut icon|icon)".*?href="(.*?)".*?>/is
     const match = html.match(regex)
 
@@ -20,7 +20,7 @@ export class HTMLUtils {
       return match[1]
     } else {
       console.log('Ícono no encontrado')
-      throw new Error('0')
+      return undefined
     }
   }
 }
