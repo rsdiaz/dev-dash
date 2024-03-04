@@ -73,4 +73,20 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  body:after {
+    content: "";
+    background: var(--bg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-image: url('https://images.pexels.com/photos/5651667/pexels-photo-5651667.jpeg');
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0.5;
+  }
 }
