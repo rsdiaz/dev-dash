@@ -1,6 +1,7 @@
 import validator from 'validator'
 import { openDb } from '../../db/db'
 import { type Request, type Response } from 'express'
+import { Favicon } from '../../lib/FavIcon'
 
 export const getBookmarks = async (req: Request, res: Response): Promise<any> => {
   const db = openDb('webdash.db')
@@ -22,9 +23,12 @@ export const createBookmark = async (req: Request, res: Response): Promise<any> 
   try {
     const { title, url, category } = req.body
 
+    const favicon = new Favicon()
+    const faviconUrl = await favicon.getFaviconPath(url as string)
+
     const lastPositionQuery: any = db.prepare('SELECT MAX(position) as lastPosition FROM bookmarks').get()
     const lastPosition = lastPositionQuery.lastPosition
-    const imageUrl = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=48`
+    const imageUrl = faviconUrl
 
     db.transaction(() => {
       const stmt = db.prepare('INSERT INTO bookmarks (title, url, category, position, imageUrl) VALUES (?, ?, ?, ?, ?)')
@@ -73,7 +77,7 @@ export const deleteBookmark = async (req: Request, res: Response): Promise<void>
   try {
     const bookmarkId = validator.toInt(id)
 
-    if (isNaN(bookmarkId)) {
+    if (isNaN(bookmarkId as number)) {
       res.status(200).send()
     } else {
       const stmt = db.prepare('DELETE FROM bookmarks WHERE id = ?')

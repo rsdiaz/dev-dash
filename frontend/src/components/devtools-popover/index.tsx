@@ -66,7 +66,7 @@ export default function MoreDevtools () {
                   ? <div className='p-4 mx-auto'><Spinner size='md' /></div>
                   : (
                     <>
-                      {error
+                      {error !== null && error !== undefined
                         ? <p className='text-center mt-3 text-xs text-red-500'>An error occurred try to connect again</p>
                         : (
                           <ul className='grid grid-cols-4 mt-4 gap-2 overflow-y-auto h-full pr-2'>

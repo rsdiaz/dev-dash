@@ -54,8 +54,19 @@ function AddBookMark () {
     })
   }
 
+  React.useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEscape)
+    return () => { window.removeEventListener('keydown', handleEscape) }
+  }, [])
+
   return (
     <div className='absolute bottom-6 left-1/2'>
+      {isOpen && <div className='fixed inset-0 z-10 bg-black/20 dark:bg-black/40' onClick={handleOpen} />}
       <div className='relative flex flex-col-reverse w-44'>
         <button
           onClick={handleOpen}
